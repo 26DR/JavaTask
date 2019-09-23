@@ -1,6 +1,5 @@
 package com.example.javatask;
 
-
 public class Task {
 
     private final long id;
