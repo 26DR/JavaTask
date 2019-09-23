@@ -16,8 +16,6 @@ public class TaskRestController {
     Task taskTwo = new Task(counter.incrementAndGet(), "Drink coffee", true);
     List<Task> taskList = new ArrayList<>();
 
-
-
     @RequestMapping("/tasks")
     public List<Task> task(){
         taskList.add(taskOne);

@@ -7,11 +7,14 @@
     <title>Tasks</title>
 </head>
 <body>
-    <table>
+    <table border="1">
         <tr>
             <th>Description</th>
             <th>Completed</th>
         </tr>
     </table>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
 </body>
 </html>
