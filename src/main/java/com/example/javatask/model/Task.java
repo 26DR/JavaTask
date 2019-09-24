@@ -1,5 +1,6 @@
 package com.example.javatask.model;
 
+
 import javax.persistence.*;
 import java.util.Objects;
 
