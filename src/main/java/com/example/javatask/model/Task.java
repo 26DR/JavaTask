@@ -1,12 +1,21 @@
 package com.example.javatask.model;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name="tasks")
 public class Task {
 
-    private final long id;
-    private final String description;
-    private final boolean isCompleted;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+    @Column(name="description")
+    private String description;
+    @Column(name="is_completed")
+    private boolean isCompleted;
+
+    public Task(){}
 
     public Task(long id, String description, boolean isCompleted) {
         this.id = id;
