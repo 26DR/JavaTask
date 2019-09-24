@@ -20,15 +20,9 @@ public class TaskRestController {
     @Autowired
     private TaskRepository taskRepository;
 
-    private Task taskOne = new Task(counter.incrementAndGet(), "Do Java task", false);
-    private Task taskTwo = new Task(counter.incrementAndGet(), "Drink coffee", true);
-    List<Task> taskList = new ArrayList<>();
-
-    @RequestMapping(value = "/tasks-rest", method = RequestMethod.GET)
-    public List<Task> task(){
-        taskList.add(taskOne);
-        taskList.add(taskTwo);
-        return taskList;
+    @GetMapping("/tasks")
+    public List<Task> getTaskList(){
+        return taskRepository.findAll();
     }
 
     @PostMapping(path = "/tasks/createTask", consumes = "application/json; charset=utf-8")
