@@ -13,6 +13,17 @@ function retrieveTasks(){
 $("#button").click(function(){
     var tasksDescription = $("#task-description").val();
     populateTable(tasksDescription, false);
+    $.ajax({
+    headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+      type: "POST",
+      url: "/tasks/createTask",
+      data: '{"description":"' + tasksDescription + '","completed":false}',
+      success: function(data) { alert('data: ' + data); },
+      dataType: "json"
+    });
 });
 
 window.onload = function() {
