@@ -32,6 +32,20 @@ public class Task {
         return description;
     }
 
+    public boolean getIsCompleted(){return isCompleted; }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
+    }
+
     public boolean isCompleted() {
         return isCompleted;
     }

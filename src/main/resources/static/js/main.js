@@ -3,9 +3,12 @@ $(document).ready(function() {
     function addRow(val) {
         $("table").append("<tbody><tr>"
         + "<td> " + val.id + "</td>"
-        + "<td> " + val.description + "</td>"
+        + "<td id='td-description-" + val.id + "'> " + val.description + "</td>"
         + "<td> " + val.completed + "<button type='button' id='btn-delete' class='btn btn-sm btn-outline-danger float-right'>X</button>" +"</td>"
         + "</tbody></tr>");
+        if(val.completed){
+            $("#td-description-" + val.id).addClass("strike");
+        }
     }
 
     function retrieveTasks(){
@@ -17,6 +20,34 @@ $(document).ready(function() {
     }
 
     retrieveTasks();
+
+    function doTaskPostRequest(id, description, completed){
+        $.ajax({
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "POST",
+            url: "/tasks/createTask",
+            data: '{"id":"' + id + '","description":"' + description + '","completed":"' + completed + '"}',
+            dataType: "json"
+        });
+    }
+
+    $(document).on("click", "tr" , function(){
+        var idRow = $(this).children("td:first");
+        var descriptionRow = $(this).children("td:first").next();
+        var completedRow = descriptionRow.next();
+        var btn = "<button type='button' id='btn-delete' class='btn btn-sm btn-outline-danger float-right'>X</button>";
+        descriptionRow.toggleClass("strike");
+        if(completedRow.text().includes("false")){
+            doTaskPostRequest(idRow.text(), descriptionRow.text(), true);
+            completedRow.html("true " + btn);
+        } else {
+            doTaskPostRequest(idRow.text(), descriptionRow.text(), false);
+            completedRow.html("false " + btn);
+        }
+    });
 
     $(document).on("click", "#btn-delete" , function(){
         var currentTr = $(this).closest('tr');
