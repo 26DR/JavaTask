@@ -18,7 +18,7 @@
                             <tr>
                                 <th id="th-id">ID</th>
                                 <th>Tasks</th>
-                                <th id="th-completed">Completed</th>
+                                <th id="td-completed">Completed</th>
                             </tr>
                         </thead>
                     </table>

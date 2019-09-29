@@ -7,7 +7,7 @@ $(document).ready(function() {
         $("table").append("<tbody><tr>"
         + "<td id='td-id'> " + val.id + "</td>"
         + "<td id='td-description-" + val.id + "'> " + val.description + deleteButton + editButton + "</td>"
-        + "<td id='td-completed'></td>"
+        + "<td id='td-completed'>" + val.completed + "</td>"
         + "</tbody></tr>");
         if(val.completed){
             $("#td-description-" + val.id).addClass("strike");
@@ -43,10 +43,10 @@ $(document).ready(function() {
         var completedRow = descriptionRow.next();
         descriptionRow.toggleClass("strike");
         if(completedRow.text().includes("false")){
-            doTaskPostRequest(idRow.val(), descriptionRow.text(), true);
+            doTaskPostRequest(idRow.text(), descriptionRow.text(), true);
             completedRow.html("true ");
         } else {
-            doTaskPostRequest(idRow.val(), descriptionRow.text(), false);
+            doTaskPostRequest(idRow.text(), descriptionRow.text(), false);
             completedRow.html("false ");
         }
     });
