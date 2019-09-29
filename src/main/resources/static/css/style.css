@@ -1,3 +1,7 @@
 .strike {
   text-decoration: line-through;
 }
+
+#td-id, #th-id, #td-completed, #th-completed {
+    display: none;
+}

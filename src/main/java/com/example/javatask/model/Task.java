@@ -32,8 +32,6 @@ public class Task {
         return description;
     }
 
-    public boolean getIsCompleted(){return isCompleted; }
-
     public void setId(long id) {
         this.id = id;
     }

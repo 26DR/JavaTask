@@ -1,25 +1,18 @@
 $(document).ready(function() {
+    var deleteButton = "<button type='button' id='btn-delete' class='btn float-right'><i class='fa fa-minus-square fa-lg'></i></button>";
+    var editButton = "<button type='button' id='btn-warning' class='btn float-right'><i class='fa fa-pencil-square fa-lg'></i></button>";
+    var doneButton = "<button type='button' id='btn-done' class='btn float-right'><i class='fa fa-check-square fa-lg'></i></button>";
 
     function addRow(val) {
         $("table").append("<tbody><tr>"
-        + "<td> " + val.id + "</td>"
-        + "<td id='td-description-" + val.id + "'> " + val.description + "</td>"
-        + "<td> " + val.completed + "<button type='button' id='btn-delete' class='btn btn-sm btn-outline-danger float-right'>X</button>" +"</td>"
+        + "<td id='td-id'> " + val.id + "</td>"
+        + "<td id='td-description-" + val.id + "'> " + val.description + deleteButton + editButton + "</td>"
+        + "<td id='td-completed'></td>"
         + "</tbody></tr>");
         if(val.completed){
             $("#td-description-" + val.id).addClass("strike");
         }
     }
-
-    function retrieveTasks(){
-        $.getJSON( "/tasks", function( data ) {
-            $.each(data, function( key, val ) {
-               addRow(val);
-            });
-        });
-    }
-
-    retrieveTasks();
 
     function doTaskPostRequest(id, description, completed){
         $.ajax({
@@ -34,18 +27,27 @@ $(document).ready(function() {
         });
     }
 
+    function retrieveTasks(){
+        $.getJSON( "/tasks", function( data ) {
+            $.each(data, function( key, val ) {
+               addRow(val);
+            });
+        });
+    }
+
+    retrieveTasks();
+
     $(document).on("click", "tr" , function(){
         var idRow = $(this).children("td:first");
         var descriptionRow = $(this).children("td:first").next();
         var completedRow = descriptionRow.next();
-        var btn = "<button type='button' id='btn-delete' class='btn btn-sm btn-outline-danger float-right'>X</button>";
         descriptionRow.toggleClass("strike");
         if(completedRow.text().includes("false")){
-            doTaskPostRequest(idRow.text(), descriptionRow.text(), true);
-            completedRow.html("true " + btn);
+            doTaskPostRequest(idRow.val(), descriptionRow.text(), true);
+            completedRow.html("true ");
         } else {
-            doTaskPostRequest(idRow.text(), descriptionRow.text(), false);
-            completedRow.html("false " + btn);
+            doTaskPostRequest(idRow.val(), descriptionRow.text(), false);
+            completedRow.html("false ");
         }
     });
 
