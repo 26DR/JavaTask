@@ -63,7 +63,6 @@ $(document).ready(function() {
         });
     });
 
-
     $("#btn-create").click(function(){
         var tasksDescription = $("#task-description").val();
         var json;

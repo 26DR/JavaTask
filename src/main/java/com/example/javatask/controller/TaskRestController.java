@@ -29,7 +29,6 @@ public class TaskRestController {
                 .buildAndExpand(savedTask.getId()).toUri();
 
         return ResponseEntity.created(location).build();
-
     }
 
     @DeleteMapping("/tasks/deleteTask/{id}")
