@@ -1,7 +1,6 @@
 $(document).ready(function() {
     var deleteButton = "<button type='button' id='btn-delete' class='btn float-right'><i class='fa fa-minus-square fa-lg'></i></button>";
     var editButton = "<button type='button' id='btn-warning' class='btn float-right'><i class='fa fa-pencil-square fa-lg'></i></button>";
-    var doneButton = "<button type='button' id='btn-done' class='btn float-right'><i class='fa fa-check-square fa-lg'></i></button>";
 
     function addRow(val) {
         $("table").append("<tbody><tr>"
@@ -66,22 +65,25 @@ $(document).ready(function() {
     $("#btn-create").click(function(){
         var tasksDescription = $("#task-description").val();
         var json;
-        $.ajax({
-            headers:{
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            type: "POST",
-            url: "/tasks/createTask",
-            data: '{"description":"' + tasksDescription + '","completed":false}',
-            complete: function (result) {
-                $.getJSON( "/tasks", function( data ) {
-                    json = data;
-                    var currentTasksId = json[json.length - 1].id;
-                    addRow({id: currentTasksId, description:tasksDescription, completed:false});
-                });
-            },
-            dataType: "json"
-        });
+        if(tasksDescription != '' && tasksDescription.length != 0 && tasksDescription.match(/^[a-zA-Z0-9]+/))
+        {
+            $.ajax({
+                headers:{
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                type: "POST",
+                url: "/tasks/createTask",
+                data: '{"description":"' + tasksDescription + '","completed":false}',
+                complete: function (result) {
+                    $.getJSON( "/tasks", function( data ) {
+                        json = data;
+                        var currentTasksId = json[json.length - 1].id;
+                        addRow({id: currentTasksId, description:tasksDescription, completed:false});
+                    });
+                },
+                dataType: "json"
+            });
+        }
     });
 });
