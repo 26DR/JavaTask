@@ -16,9 +16,9 @@
             <table class="table table-hover mb-4">
                         <thead class="thead-dark">
                             <tr>
-                                <th id="th-id">ID</th>
+                                <th class="display-none">ID</th>
                                 <th>Tasks</th>
-                                <th id="td-completed">Completed</th>
+                                <th class="display-none">Completed</th>
                             </tr>
                         </thead>
                     </table>

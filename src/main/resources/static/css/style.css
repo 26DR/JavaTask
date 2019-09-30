@@ -1,7 +1,11 @@
 .strike {
-  text-decoration: line-through;
+    text-decoration: line-through;
 }
 
-#td-id, #th-id, #td-completed, #th-completed {
+.description-paragraph {
+    display: inline-block;
+}
+
+.display-none {
     display: none;
 }

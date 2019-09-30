@@ -1,19 +1,19 @@
 $(document).ready(function() {
-    var deleteButton = "<button type='button' id='btn-delete' class='btn float-right'><i class='fa fa-minus-square fa-lg'></i></button>";
-    var editButton = "<button type='button' id='btn-warning' class='btn float-right'><i class='fa fa-pencil-square fa-lg'></i></button>";
+    var deleteButton = "<button type='button' class='btn btn-delete float-right'><i class='fa fa-minus-square fa-lg'></i></button>";
+    var editButton = "<button type='button' class='btn btn-edit float-right'><i class='fa fa-pencil-square fa-lg'></i></button>";
 
     function addRow(val) {
         $("table").append("<tbody><tr>"
-        + "<td id='td-id'> " + val.id + "</td>"
-        + "<td id='td-description-" + val.id + "'> " + val.description + deleteButton + editButton + "</td>"
-        + "<td id='td-completed'>" + val.completed + "</td>"
+        + "<td class='display-none'> " + val.id + "</td>"
+        + "<td id='task-description-" + val.id + "'> " + "<p class='description-paragraph'>" + val.description + "</p>" + deleteButton + editButton + "</td>"
+        + "<td class='display-none'>" + val.completed + "</td>"
         + "</tbody></tr>");
         if(val.completed){
-            $("#td-description-" + val.id).addClass("strike");
+            $("#task-description-" + val.id).children(".description-paragraph").addClass("strike");
         }
     }
 
-    function doTaskPostRequest(id, description, completed){
+    function saveTask(id, description, completed){
         $.ajax({
             headers:{
                 'Accept': 'application/json',
@@ -36,21 +36,22 @@ $(document).ready(function() {
 
     retrieveTasks();
 
-    $(document).on("click", "tr" , function(){
-        var idRow = $(this).children("td:first");
-        var descriptionRow = $(this).children("td:first").next();
+    $(document).on("click", "p" , function(){
+        var idRow = $(this).closest("tr").children("td:first");
+        var descriptionRow = idRow.next();
+        var taskDescription = descriptionRow.children("p");
         var completedRow = descriptionRow.next();
-        descriptionRow.toggleClass("strike");
+        taskDescription.toggleClass("strike");
         if(completedRow.text().includes("false")){
-            doTaskPostRequest(idRow.text(), descriptionRow.text(), true);
+            saveTask(idRow.text(), taskDescription.text(), true);
             completedRow.html("true ");
         } else {
-            doTaskPostRequest(idRow.text(), descriptionRow.text(), false);
+            saveTask(idRow.text(), taskDescription.text(), false);
             completedRow.html("false ");
         }
     });
 
-    $(document).on("click", "#btn-delete" , function(){
+    $(document).on("click", ".btn-delete" , function(){
         var currentTr = $(this).closest('tr');
         var taskId = currentTr.children("td:first").text();
         $(this).closest('tr').remove();
