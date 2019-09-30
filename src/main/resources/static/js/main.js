@@ -9,7 +9,7 @@ $(document).ready(function() {
         + "<td class='display-none'>" + val.completed + "</td>"
         + "</tbody></tr>");
         if(val.completed){
-            $("#task-description-" + val.id).children(".description-paragraph").addClass("strike");
+            $("#task-description-" + val.id).children(".description-paragraph").addClass("strike-through");
         }
     }
 
@@ -41,7 +41,7 @@ $(document).ready(function() {
         var descriptionRow = idRow.next();
         var taskDescription = descriptionRow.children("p");
         var completedRow = descriptionRow.next();
-        taskDescription.toggleClass("strike");
+        taskDescription.toggleClass("strike-through");
         if(completedRow.text().includes("false")){
             saveTask(idRow.text(), taskDescription.text(), true);
             completedRow.html("true ");
