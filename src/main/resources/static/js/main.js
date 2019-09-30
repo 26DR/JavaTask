@@ -20,7 +20,7 @@ $(document).ready(function() {
                 'Content-Type': 'application/json'
             },
             type: "POST",
-            url: "/tasks/createTask",
+            url: "/tasks",
             data: '{"id":"' + id + '","description":"' + description + '","completed":"' + completed + '"}',
             dataType: "json"
         });
@@ -57,7 +57,7 @@ $(document).ready(function() {
         $(this).closest('tr').remove();
             $.ajax({
               type: "DELETE",
-              url: "/tasks/deleteTask/" + taskId,
+              url: "/tasks/" + taskId,
               success: function(data) { alert('data: ' + data); },
               dataType: "json"
         });
@@ -74,7 +74,7 @@ $(document).ready(function() {
                     'Content-Type': 'application/json'
                 },
                 type: "POST",
-                url: "/tasks/createTask",
+                url: "/tasks",
                 data: '{"description":"' + tasksDescription + '","completed":false}',
                 complete: function (result) {
                     $.getJSON( "/tasks", function( data ) {

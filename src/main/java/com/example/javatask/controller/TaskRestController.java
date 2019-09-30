@@ -21,7 +21,7 @@ public class TaskRestController {
         return taskRepository.findAll();
     }
 
-    @PostMapping(path = "/tasks/createTask", consumes = "application/json; charset=utf-8")
+    @PostMapping(path = "/tasks", consumes = "application/json; charset=utf-8")
     public ResponseEntity<Object> createTask(@RequestBody Task task) {
         Task savedTask = taskRepository.save(task);
 
@@ -31,7 +31,7 @@ public class TaskRestController {
         return ResponseEntity.created(location).build();
     }
 
-    @DeleteMapping("/tasks/deleteTask/{id}")
+    @DeleteMapping("/tasks/{id}")
     public void deleteTask(@PathVariable Long id) {
         taskRepository.deleteById(id);
     }
