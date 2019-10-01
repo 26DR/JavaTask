@@ -5,11 +5,14 @@ $(document).ready(function() {
     function addRow(val) {
         $("table").append("<tbody><tr>"
         + "<td class='display-none'> " + val.id + "</td>"
-        + "<td id='task-description-" + val.id + "'> " + "<p class='description-paragraph'>" + val.description + "</p>" + deleteButton + editButton + "</td>"
+        + "<td id='task-description-" + val.id + "'> "
+        + "<input class='form-check-input' type='checkbox' value='' id='completed-check-" + val.id + "'>"
+        + "<label class='description-paragraph' for='completed-check-" + val.id + "'>" + val.description + "</label>"
+        + deleteButton + editButton + "</td>"
         + "<td class='display-none'>" + val.completed + "</td>"
         + "</tbody></tr>");
         if(val.completed){
-            $("#task-description-" + val.id).children(".description-paragraph").addClass("strike-through");
+            $("#task-description-" + val.id).children(".form-check-input").prop('checked', true);
         }
     }
 
@@ -36,12 +39,12 @@ $(document).ready(function() {
 
     retrieveTasks();
 
-    $(document).on("click", "p" , function(){
+    $(document).on("click", "label" , function(){
         var idRow = $(this).closest("tr").children("td:first");
         var descriptionRow = idRow.next();
-        var taskDescription = descriptionRow.children("p");
+        var taskDescription = descriptionRow.children("label");
         var completedRow = descriptionRow.next();
-        taskDescription.toggleClass("strike-through");
+        //taskDescription.toggleClass("strike-through");
         if(completedRow.text().includes("false")){
             saveTask(idRow.text(), taskDescription.text(), true);
             completedRow.html("true ");
@@ -49,6 +52,33 @@ $(document).ready(function() {
             saveTask(idRow.text(), taskDescription.text(), false);
             completedRow.html("false ");
         }
+    });
+
+    $(document).on("click", ".btn-edit" , function(){
+        var currentTr = $(this).closest('tr');
+        var taskId = currentTr.children("td:first");
+        var description = taskId.next();
+        description.find("label").replaceWith( function(){
+        return "<form class='form-inline'>"
+               + "<div class='input-group'>"
+               + "<input type='text' id='task-description' class='form-control' name='description' placeholder='" + $( this ).html() + "'>"
+               + "<div class='input-group-append'>"
+               + "<button type='button' id='btn-create' class='btn btn-outline-secondary'>Save</button>"
+               + "</div>"
+               + "</div>"
+               + "</form>"
+        });
+        $(document).on("click", "#btn-create" , function(){
+                var form = description.find("form");
+                var textBox = description.find("form").find("input");
+                var completedRow = description.next();
+                form.replaceWith( function(){
+                    return "<label class='description-paragraph' for='completed-check-" + taskId.text().replace(/\s+/g, '') + "'>" + textBox.val() + "</label>"
+                });
+                console.log(description);
+                saveTask(taskId.text(), description.text(),completedRow.html());
+            });
+
     });
 
     $(document).on("click", ".btn-delete" , function(){

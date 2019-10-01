@@ -9,3 +9,9 @@
 .display-none {
     display: none;
 }
+
+.form-check-input {
+    position: relative;
+    margin-top: 0;
+    margin-left: 0;
+}
