@@ -1,3 +1,124 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: rgb(204,82,122);
+    background: linear-gradient(0deg, rgba(204,82,122,1) 0%, rgba(71,71,71,1) 100%);
+    margin-top: 5rem;
+}
+
+hr {
+    margin-top: 1.75rem;
+    margin-bottom: 1rem;
+}
+
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: 0;
+    background-color: #3e454c;
+    height: 16px;
+    width: 16px;
+    border: 2px solid #2f3338;
+}
+
+input[type="checkbox"]:checked {
+    background: #CC527A;
+}
+
+input[type="checkbox"]:checked:before {
+    position: absolute;
+    top: -6px;
+    left: 1px;
+    width: 90%;
+    height: 40%;
+    line-height: 2em;
+    text-align: center;
+    content: '✔';
+    font-size: .75rem;
+    color: #2f3338;
+}
+
+input[type="checkbox"]:hover {
+    filter: brightness(90%);
+}
+
+.table td, .table th {
+    padding: .75rem 0 .75rem 0;
+}
+
+#task-description-edit{
+    max-height: 24px;
+}
+
+.btn-create-edit {
+    border: none;
+    height: 24px;
+    font-size: .5rem;
+}
+
+.form-check-input {
+    position: relative;
+    margin-top: 0;
+    margin-left: 0;
+}
+
+.form-control{
+    border: 2px solid #2f3338;
+    background-color: #1f2226;
+}
+
+.btn-delete {
+    color: #495057;
+}
+
+.btn-edit {
+    color: #495057;
+}
+
+#btn-create {
+    color: #495057;
+    background-color: #2f3338;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.dropdown-menu {
+    background-color: #1f2226;
+    padding: .5rem .5rem;
+}
+
+.dropdown-item {
+    font-size: .75rem;
+    color: #495057;
+}
+
+.dropdown-item i {
+    margin-right: .75rem;
+}
+
+.form-control:focus, .form-control:target {
+    border: 2px solid #495057;
+    background-color: #1f2226;
+    box-shadow: none;
+}
+
+#btn-create:hover {
+    color: #2f3338;
+    background-color: #495057;
+}
+
+.btn:focus {
+    box-shadow: none;
+}
+
+.dropdown-item:hover {
+    background-color: #1f2226;
+    color: #fff;
+}
+
+.dropdown-toggle::after {
+    display:none;
+}
+
 .strike-through {
     text-decoration: line-through;
 }
@@ -10,8 +131,6 @@
     display: none;
 }
 
-.form-check-input {
-    position: relative;
-    margin-top: 0;
-    margin-left: 0;
+.display-inline-block {
+    display: inline-block;
 }
