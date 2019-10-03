@@ -13,15 +13,18 @@ import java.util.List;
 @RestController
 public class TaskRestController {
 
-    @Autowired
     private TaskRepository taskRepository;
+    @Autowired
+    public TaskRestController(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
     @GetMapping("/tasks")
     public List<Task> getTaskList(){
         return taskRepository.findAll();
     }
 
-    @PostMapping(path = "/tasks", consumes = "application/json; charset=utf-8")
+    @PostMapping(path = "/tasks", consumes = "application/json; charset=utf-8", produces = "application/json; charset=utf-8")
     public ResponseEntity<Object> createTask(@RequestBody Task task) {
         Task savedTask = taskRepository.save(task);
 
