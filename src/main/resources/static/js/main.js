@@ -33,7 +33,7 @@ $(document).ready(function() {
             },
             type: "POST",
             url: "/tasks",
-            data: '{"id":"' + id.replace(/\s+/g, '') + '","description":"' + description + '","completed":"' + completed + '"}',
+            data: '{"id":"' + id.replace(/\s+/g, '') + '","description":"' + description.toString() + '","completed":"' + completed + '"}',
             dataType: "json"
         });
     }
@@ -91,10 +91,12 @@ $(document).ready(function() {
         var form = description.find("form");
         var textBox = description.find("form").find("input");
         var completedRow = description.next();
-        form.replaceWith( function(){
-            return "<label class='description-paragraph ml-2' for='completed-check-" + taskId.text() + "'>" + textBox.val() + "</label>"
-        });
-        saveTask(taskId.text(), textBox.val(), completedRow.html());
+        if(textBox.val() != '' && textBox.val().length != 0 && textBox.val().match(/^[a-zA-Z0-9]+/)){
+            form.replaceWith( function(){
+                return "<label class='description-paragraph ml-2' for='completed-check-" + taskId.text() + "'>" + textBox.val() + "</label>"
+            });
+            saveTask(taskId.text(), textBox.val(), completedRow.html());
+        }
         });
     });
 
@@ -132,6 +134,12 @@ $(document).ready(function() {
                 },
                 dataType: "json"
             });
+        } else {
+            $(".alert").toggle("fast");
         }
     });
+
+    $(document).on("click", ".close" , function(){
+            $(this).parent().toggle("fast");
+        });
 });

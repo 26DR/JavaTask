@@ -24,6 +24,12 @@
                         </div>
                     </div>
                 </form>
+                <div class="alert alert-dark alert-dismissible mt-3 fade show display-none" role="alert">
+                  Tasks description can't be empty
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
                 <hr>
                 <thead class="thead-dark display-none">
                     <tr>
