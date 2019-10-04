@@ -14,6 +14,7 @@ input[type="checkbox"] {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+    top: 2px;
     outline: 0;
     background-color: #3e454c;
     height: 16px;
@@ -64,7 +65,7 @@ input[type="checkbox"]:hover {
 
 .form-control{
     border: 2px solid #2f3338;
-    background-color: #1f2226;
+    background-color: #1f2226 !important;
 }
 
 .btn-delete {
