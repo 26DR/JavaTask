@@ -2,6 +2,7 @@ package com.example.javatask.controller;
 
 import com.example.javatask.model.Task;
 import com.example.javatask.repositories.TaskRepository;
+import com.example.javatask.service.TaskService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,14 +20,17 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import static org.mockito.ArgumentMatchers.any;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {TaskRestController.class, TaskRestControllerTest.TestConfig.class})
+@ContextConfiguration(classes = {TaskRestController.class, TaskService.class, TaskRestControllerTest.TestConfig.class})
 @WebAppConfiguration
 public class TaskRestControllerTest {
 
@@ -38,28 +42,63 @@ public class TaskRestControllerTest {
     @Autowired
     private TaskRepository taskRepository;
 
+    @Autowired
+    private TaskService taskService;
+
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
 
     @Test
-    public void getTaskList() throws Exception {
+    public void getTaskListOk() throws Exception {
+
+        List<Task> listOfTasks = Arrays.asList(new Task(1, "Drink coffee", true),
+                new Task(2, "Do Java task", true));
+
+        when(taskService.findAllTasks())
+                .thenReturn(listOfTasks);
+
         mockMvc.perform(MockMvcRequestBuilders
-            .get("/tasks")
-            .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
+                .get("/tasks")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(asJsonString(listOfTasks)));
+    }
+
+    @Test
+    public void getTaskListNotFound() throws Exception {
+        when(taskService.findAllTasks())
+                .thenReturn(null);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/tasks")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
     @Test
     public void createTask() throws Exception {
         Task taskToSave = new Task(1, "Drink coffee", false);
-        when(taskRepository.save(any(Task.class))).thenReturn(taskToSave);
+
+        when(taskService.saveOrUpdateTask(taskToSave))
+                .thenReturn(taskToSave);
+
         mockMvc.perform(MockMvcRequestBuilders
-            .post("/tasks").contentType(MediaType.APPLICATION_JSON_VALUE)
-            .content(asJsonString(taskToSave)))
-            .andExpect(status().isCreated());
+                .post("/tasks")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(asJsonString(taskToSave)))
+                .andExpect(status().isCreated());
     }
+
+    @Test
+    public void deleteTask() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                .delete("/tasks/{id}", 1))
+                .andExpect(status().isOk());
+    }
+
+    /*auxiliary methods*/
 
     public static String asJsonString(final Object obj) {
         try {
@@ -67,13 +106,6 @@ public class TaskRestControllerTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Test
-    public void deleteTask() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders
-            .delete("/tasks/{id}", 1))
-            .andExpect(status().isOk());
     }
 
     @EnableWebMvc

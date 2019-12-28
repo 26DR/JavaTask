@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,7 +26,7 @@ public class TaskRestController {
     }
 
     @PostMapping(path = "/tasks", consumes = "application/json; charset=utf-8", produces = "application/json; charset=utf-8")
-    public ResponseEntity<?> createTask(@RequestBody Task taskToCreate) {
+    public ResponseEntity<Task> createTask(@Valid @RequestBody Task taskToCreate) {
         Task createdTask = taskService.saveOrUpdateTask(taskToCreate);
         return new ResponseEntity<>(createdTask, HttpStatus.CREATED);
     }

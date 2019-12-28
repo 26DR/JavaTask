@@ -25,7 +25,7 @@ public class TaskControllerTest {
     private WebApplicationContext wac;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
 
