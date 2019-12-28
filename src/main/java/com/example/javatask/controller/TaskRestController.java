@@ -1,41 +1,38 @@
 package com.example.javatask.controller;
 
 import com.example.javatask.model.Task;
-import com.example.javatask.model.TaskRepository;
+import com.example.javatask.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
 public class TaskRestController {
 
-    private TaskRepository taskRepository;
     @Autowired
-    public TaskRestController(TaskRepository taskRepository) {
-        this.taskRepository = taskRepository;
-    }
+    private TaskService taskService;
 
     @GetMapping("/tasks")
-    public List<Task> getTaskList(){
-        return taskRepository.findAll();
+    public ResponseEntity<List<Task>> getTaskList() {
+        List<Task> listOfTasks = taskService.findAllTasks();
+        if (listOfTasks != null && !listOfTasks.isEmpty()) {
+            return new ResponseEntity<>(listOfTasks, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping(path = "/tasks", consumes = "application/json; charset=utf-8", produces = "application/json; charset=utf-8")
-    public ResponseEntity<Object> createTask(@RequestBody Task task) {
-        Task savedTask = taskRepository.save(task);
-
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(savedTask.getId()).toUri();
-
-        return ResponseEntity.created(location).build();
+    public ResponseEntity<?> createTask(@RequestBody Task taskToCreate) {
+        Task createdTask = taskService.saveOrUpdateTask(taskToCreate);
+        return new ResponseEntity<>(createdTask, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/tasks/{id}")
-    public void deleteTask(@PathVariable Long id) {
-        taskRepository.deleteById(id);
+    public ResponseEntity deleteTask(@PathVariable Long id) {
+        taskService.deleteTaskByIdentifier(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

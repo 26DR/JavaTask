@@ -3,6 +3,7 @@ package com.example.javatask.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -15,6 +16,7 @@ public class Task {
     @NotBlank(message="Task description required")
     @Column(name="description")
     private String description;
+    @NotNull(message="Completion status is required")
     @Column(name="is_completed")
     private boolean isCompleted;
 
